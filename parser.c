@@ -168,5 +168,11 @@ void parse_file ( char * filename,
       save_extension(s, line);
     }//end save
 
+    else if (strncmp(line, "bezier", strlen(line)) == 0) {
+    }
+
+    else if (strncmp(line, "hermite", strlen(line)) == 0) {
+    }
+
   }
 }
