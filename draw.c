@@ -26,11 +26,15 @@ void add_circle( struct matrix * points,
     step *= 10;
   }
   int t;
-  double x, y;
+  double x0, y0, x1, y1;
   for ( t = 0 ; t <= (int)d ; t += (int)step ) {
-    x = r * cos(2 * M_PI * t / d) + cx;
-    y = r * sin(2 * M_PI * t / d) + cy;
-    add_point(points, x, y, cz);
+    x0 = r * cos(2 * M_PI * t / d) + cx;
+    y0 = r * sin(2 * M_PI * t / d) + cy;
+    
+    x1 = r * cos(2 * M_PI * (t + (int)step) / d) + cx;
+    y1 = r * sin(2 * M_PI * (t + (int)step) / d) + cy;
+    
+    add_edge(points, x0, y0, cz, x1, y1, cz);
   }
 }
 
@@ -67,16 +71,26 @@ void add_curve( struct matrix * points,
     d *= 10;
     step *= 10;
   }
-  int t;
-  double x, y;
-  for ( t = 0 ; t <= (int)d ; t += (int)step ) {
-    x =
+  int t = 0;
+  double xf, yf, xl, yl;
+  xf = 
+    xm->m[0][0] * pow(t/d, 3) + xm->m[1][0] * pow(t/d, 2) +
+    xm->m[2][0] * t/d + xm->m[3][0];
+  yf =
+    ym->m[0][0] * pow(t/d, 3) + ym->m[1][0] * pow(t/d, 2) +
+    ym->m[2][0] * t/d + ym->m[3][0];
+  
+  for ( ; t <= (int)d ; t += (int)step ) {
+    xl =
       xm->m[0][0] * pow(t/d, 3) + xm->m[1][0] * pow(t/d, 2) +
       xm->m[2][0] * t/d + xm->m[3][0];
-    y =
+    yl =
       ym->m[0][0] * pow(t/d, 3) + ym->m[1][0] * pow(t/d, 2) +
       ym->m[2][0] * t/d + ym->m[3][0];
-    add_point(points, x, y, 0);
+    
+    add_edge(points, xf, yf, 0, xl, yl, 0);
+    xf = xl;
+    yf = yl;
   }
 }
 
