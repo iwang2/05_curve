@@ -90,7 +90,7 @@ void parse_file ( char * filename,
     struct matrix *tmp;
     double theta;
     char axis;
-    double step = 0.01;
+    double step = 0.001;
     
     if ( strncmp(line, "line", strlen(line)) == 0 ) {
       fgets(line, sizeof(line), f);

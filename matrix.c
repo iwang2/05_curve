@@ -25,6 +25,10 @@ struct matrix * make_bezier() {
   
   bez->m[2][0] = -3;
   bez->m[2][1] = 3;
+  bez->m[2][2] = 0;
+
+  bez->m[3][0] = 1;
+  bez->m[3][3] = 0;
 
   return bez;
 }
@@ -51,6 +55,7 @@ struct matrix * make_hermite() {
   herm->m[1][3] = -1;
 
   herm->m[3][0] = 1;
+  herm->m[3][3] = 0;
   
   return herm;
 }

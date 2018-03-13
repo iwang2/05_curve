@@ -71,11 +71,11 @@ void add_curve( struct matrix * points,
   double x, y;
   for ( t = 0 ; t <= (int)d ; t += (int)step ) {
     x =
-      xm->m[0][0] * pow(t/d, 3) + xm->m[0][1] * pow(t/d, 2) +
-      xm->m[0][2] * t/d + xm->m[0][3];
+      xm->m[0][0] * pow(t/d, 3) + xm->m[1][0] * pow(t/d, 2) +
+      xm->m[2][0] * t/d + xm->m[3][0];
     y =
-      ym->m[0][0] * pow(t/d, 3) + ym->m[0][1] * pow(t/d, 2) +
-      ym->m[0][2] * t/d + ym->m[0][3];
+      ym->m[0][0] * pow(t/d, 3) + ym->m[1][0] * pow(t/d, 2) +
+      ym->m[2][0] * t/d + ym->m[3][0];
     add_point(points, x, y, 0);
   }
 }
