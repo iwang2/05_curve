@@ -78,27 +78,19 @@ void add_curve( struct matrix * points,
   int t = 0;
   double xf, yf, xl, yl;
   xf = 
-    xm->m[0][0] * pow(t/d, 3) +
-    xm->m[1][0] * pow(t/d, 2) +
-    xm->m[2][0] * t/d +
-    xm->m[3][0];
+    xm->m[0][0] * pow(t/d, 3) + xm->m[1][0] * pow(t/d, 2) +
+    xm->m[2][0] * t/d + xm->m[3][0];
   yf =
-    ym->m[0][0] * pow(t/d, 3) +
-    ym->m[1][0] * pow(t/d, 2) +
-    ym->m[2][0] * t/d +
-    ym->m[3][0];
-  
+    ym->m[0][0] * pow(t/d, 3) + ym->m[1][0] * pow(t/d, 2) +
+    ym->m[2][0] * t/d + ym->m[3][0];
+    
   for ( ; t <= (int)d ; t += (int)step ) {
-    xl =
-      xm->m[0][0] * pow(t/d, 3) +
-      xm->m[1][0] * pow(t/d, 2) +
-      xm->m[2][0] * t/d +
-      xm->m[3][0];
+    xl = 
+      xm->m[0][0] * pow(t/d, 3) + xm->m[1][0] * pow(t/d, 2) +
+      xm->m[2][0] * t/d + xm->m[3][0];
     yl =
-      ym->m[0][0] * pow(t/d, 3) +
-      ym->m[1][0] * pow(t/d, 2) +
-      ym->m[2][0] * t/d +
-      ym->m[3][0];
+      ym->m[0][0] * pow(t/d, 3) + ym->m[1][0] * pow(t/d, 2) +
+      ym->m[2][0] * t/d + ym->m[3][0];
     
     add_edge(points, xf, yf, 0, xl, yl, 0);
     xf = xl;

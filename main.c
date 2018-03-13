@@ -15,6 +15,8 @@ int main(int argc, char **argv) {
   struct matrix * edges;
   struct matrix * transform;
 
+  clear_screen(s);
+
   edges = new_matrix(4, 4);
   transform = new_matrix(4, 4);
 

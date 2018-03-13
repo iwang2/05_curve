@@ -87,7 +87,7 @@ struct matrix * generate_curve_coefs( double p1, double p2,
   points->m[3][0] = p4;
 
   matrix_mult(curve, points);
-  free(curve);
+  free_matrix(curve);
   return points;
 }
 
