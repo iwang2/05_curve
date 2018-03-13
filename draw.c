@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "ml6.h"
 #include "display.h"
@@ -19,6 +20,18 @@
 void add_circle( struct matrix * points,
                  double cx, double cy, double cz,
                  double r, double step ) {
+  double d = 1;
+  while (step < 1) {
+    d *= 10;
+    step *= 10;
+  }
+  int t;
+  double x, y;
+  for ( t = 0 ; t <= (int)d ; t += (int)step ) {
+    x = r * cos(2 * M_PI * t / d) + cx;
+    y = r * sin(2 * M_PI * t / d) + cy;
+    add_point(points, x, y, cz);
+  }
 }
 
 /*======== void add_curve() ==========
@@ -39,12 +52,32 @@ Adds the curve bounded by the 4 points passsed as parameters
 of type specified in type (see matrix.h for curve type constants)
 to the matrix points
 ====================*/
-void add_curve( struct matrix *points, 
+void add_curve( struct matrix * points, 
                 double x0, double y0, 
                 double x1, double y1, 
                 double x2, double y2, 
                 double x3, double y3, 
                 double step, int type ) {
+  
+  struct matrix * xm = generate_curve_coefs(x0, x1, x2, x3, type);
+  struct matrix * ym = generate_curve_coefs(y0, y1, y2, y3, type);
+
+  double d = 1;
+  while (step < 1) {
+    d *= 10;
+    step *= 10;
+  }
+  int t;
+  double x, y;
+  for ( t = 0 ; t <= (int)d ; t += (int)step ) {
+    x =
+      xm->m[0][0] * pow(t/d, 3) + xm->m[0][1] * pow(t/d, 2) +
+      xm->m[0][2] * t/d + xm->m[0][3];
+    y =
+      ym->m[0][0] * pow(t/d, 3) + ym->m[0][1] * pow(t/d, 2) +
+      ym->m[0][2] * t/d + ym->m[0][3];
+    add_point(points, x, y, 0);
+  }
 }
 
 

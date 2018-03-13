@@ -84,9 +84,13 @@ void parse_file ( char * filename,
     double xvals[3];
     double yvals[3];
     double zvals[4];
+    double rx[2];
+    double ry[2];
+    double radius;
     struct matrix *tmp;
     double theta;
     char axis;
+    double step = 0.01;
     
     if ( strncmp(line, "line", strlen(line)) == 0 ) {
       fgets(line, sizeof(line), f);
@@ -142,6 +146,37 @@ void parse_file ( char * filename,
       matrix_mult(tmp, transform);
     }//end rotate
 
+    else if ( strncmp(line, "circle", strlen(line)) == 0 ) {
+      fgets(line, sizeof(line), f);
+      sscanf(line, "%lf %lf %lf %lf", xvals, yvals, zvals, &radius);
+      //printf("CIRCLE: %s\n", line);
+      add_circle(edges, xvals[0], yvals[0], zvals[0], radius, step);
+    }
+
+    else if ( strncmp(line, "hermite", strlen(line)) == 0 ) {
+      fgets(line, sizeof(line), f);
+      sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf",
+	     xvals, yvals, xvals+1, yvals+1,
+	     rx, ry, rx+1, ry+1);
+      //printf("HERMITE: %s\n", line);
+      add_curve(edges,
+		xvals[0], yvals[0], xvals[1], yvals[1],
+		rx[0], ry[0], rx[1], ry[1],
+		step, HERMITE);
+    }
+
+    else if ( strncmp(line, "bezier", strlen(line)) == 0 ) {
+      fgets(line, sizeof(line), f);
+      sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf",
+	     xvals, yvals, xvals+1, yvals+1,
+	     xvals+2, yvals+2, xvals+3, yvals+3);
+      //printf("BEZIER: %s\n", line);
+      add_curve(edges,
+		xvals[0], yvals[0], xvals[1], yvals[1],
+		xvals[2], yvals[2], xvals[3], yvals[3],
+		step, BEZIER);
+    }
+
     else if ( strncmp(line, "ident", strlen(line)) == 0 ) {
       //printf("IDENT\t%s", line);
       ident(transform);
@@ -167,6 +202,5 @@ void parse_file ( char * filename,
       draw_lines(edges, s, c);
       save_extension(s, line);
     }//end save
-
   }
 }
